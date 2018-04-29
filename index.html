@@ -104,7 +104,7 @@
             </div>
           </div>
         </div>
-        <div class="card mb-4 box-shadow">
+        <div class="card mb-4 box-shadow show">
           <div class="card-header" id="Calculation">
             <h4 class="my-0 font-weight-normal">估算</h4>
           </div>
@@ -165,13 +165,30 @@
               <li>要注意便當店的休店時間及事先打電話確認外送時間及金額</li>
               <li>水果,蛋糕及其他項目最好前一天晚上就買好冰冰箱</li>
               <li>注意是否有口試委員需要的是黑咖啡</li>
-
-
             </ul>
           </div>
         </div>
 
-        <footer class="pt-4 my-md-5 pt-md-5 border-top">
+
+
+        <div class="form-group show">
+          <label for="exampleInputEmail1">Email address</label>
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" v-model="email" >
+          <small id="emailHelp" class="form-text text-muted">把估計表寄給自己</small>
+          <a v-bind:href="SendMail" class="btn btn-primary top">Submit</a>
+        </div>
+
+        <!-- <div class="form-group show">
+          <form v-bind:action="TotalEmail" method="post" enctype="text/plain" title="口試費用估算表" accept-charset="utf-8">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" v-model="email" >
+            <small id="emailHelp" class="form-text text-muted">把估計表寄給自己</small>
+            <input  type="text" name="Proposal Cost Calculation "  class="form-control hide" v-model="EmailContain" >
+            <button type="submit" value="submit" class="btn btn-primary top">Submit</button>
+          </form>
+        </div> -->
+
+        <footer class="pt-4 my-md-5 pt-md-5 border-top show">
           <div class="row">
             <div class="col-md-2">
               <img src="./img/graduation3.png" class="card-img-top rounded-circle" alt="">
@@ -223,7 +240,8 @@
         fruitPrice: 55,
         cakePrice: 75,
         otherPrice: 130,
-        lunchPrice: 250
+        lunchPrice: 250,
+        email: '',
       },
       computed: {
         TotalCoffee: function(){
@@ -243,6 +261,20 @@
         },
         FullTotal: function(){
           return (this.TotalCoffee + this.TotalFruit + this.TotalCake + this.TotalOther + this.TotalLunch)
+        },
+        Email_Contain: function(){
+          reutrn  `咖啡:${this.coffeePrice}*${this.coffee}杯=${this.TotalCoffee}\u2028
+                   水果:${this.fruitPrice}*${this.fruit}份=${this.TotalFruit}\u2028
+                   蛋糕:${this.cakePrice}*${this.cake}份=${this.TotalCake}\u2028
+                   其他:${this.otherPrice}*${this.other}份=${this.TotalOther}\u2028
+                   便當:${this.lunchPrice}*${this.lunch}份=${this.TotalLunch}\u2028
+                   總共= ${this.FullTotal}\u2028
+                   參考項目= https://imgur.com/a/GNMh1Wh\u2028
+                   Webpage: https://alec0123321.github.io/Proposal-Cost-Calculation
+                    `
+        },
+        SendMail: function(){
+          return 'mailto:'+this.email+'?Subject=口試準備清單&body=口試清單:'+`\u2028咖啡:${this.coffeePrice}*${this.coffee}杯=${this.TotalCoffee}\u2028水果:${this.fruitPrice}*${this.fruit}份=${this.TotalFruit}\u2028蛋糕:${this.cakePrice}*${this.cake}份=${this.TotalCake}\u2028其他:${this.otherPrice}*${this.other}份=${this.TotalOther}\u2028便當:${this.lunchPrice}*${this.lunch}份=${this.TotalLunch}\u2028總共= ${this.FullTotal}\u2028參考項目= https://imgur.com/a/GNMh1Wh\u2028Webpage: https://alec0123321.github.io/Proposal-Cost-Calculation`
         }
       },
       methods: {
